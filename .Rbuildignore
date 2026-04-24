@@ -1,0 +1,6 @@
+^renv$
+^renv\.lock$
+^moddafricaes\.Rproj$
+^\.Rproj\.user$
+^\.positai$
+^\.claude$
