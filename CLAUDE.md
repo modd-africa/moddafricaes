@@ -8,8 +8,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `get_bbox(shp_path, crs = 4326)` — reads any shapefile (including `/vsizip/...` paths) and returns its bounding box in Copernicus CDS order `c(N, W, S, E)`.
 - `extract_era5land(bbox, years, output_dir, ...)` — downloads ERA5-Land hourly NetCDFs from the Copernicus CDS for a `c(N, W, S, E)` bbox, staging one file per (year, month) under `<output_dir>/<year>/`. Requires the `CDS_API_KEY` environment variable.
+- `transform_era5land(input_dir, output_dir, dem_tif, years, ...)` — reads the per-month NetCDFs `extract_era5land()` produced, de-accumulates `tp` and `ssrd`, derives wind speed / RH / VPD / Celsius temperature, joins a DEM-derived `elevation_m` onto the ERA5-Land 0.1 deg grid, and writes one Parquet per year. Intermediate per-day Parquets are staged under `<output_dir>/_daily/<year>/` and deleted after the year file passes a readability check.
 
-The intended composition is `get_bbox()` → `extract_era5land()`: the first produces a bbox in the exact order the second consumes.
+The intended composition is `get_bbox()` → `extract_era5land()` → `transform_era5land()`: bbox flows into the downloader, the downloader's NetCDFs flow into the transformer.
 
 ## Common commands
 
@@ -28,9 +29,11 @@ There is no `tests/` directory yet; `.lintr` already excludes one for when it's 
 ## Architecture notes
 
 - Standard R package layout: sources in `R/`, generated docs in `man/`, exports listed in `NAMESPACE` (do not hand-edit — regenerate via `devtools::document()`).
-- Imports are declared in `DESCRIPTION` (`sf`, `ecmwfr`, `lubridate`, `terra`); within `R/` code, reference functions with the `pkg::` prefix rather than `library()`. After adding/removing an import, snapshot with `renv::snapshot()`.
+- Imports are declared in `DESCRIPTION` (`sf`, `ecmwfr`, `lubridate`, `terra`, `arrow`); within `R/` code, reference functions with the `pkg::` prefix rather than `library()`. After adding/removing an import, snapshot with `renv::snapshot()`.
 - Shapefile inputs are read via `sf::st_read()`, which accepts GDAL's `/vsizip/<archive.zip>/<file.shp>` virtual paths so zips can stay zipped. The example shapefile (`data-acquisition/utilities/province26.zip`) is **not** bundled — callers must supply their own path.
 - **CDS bbox order is `c(N, W, S, E)`** throughout this package, not `sf::st_bbox()`'s `(xmin, ymin, xmax, ymax)`. This is what `get_bbox()` returns and what `extract_era5land()`'s `area` field expects. Preserve that convention when adding related helpers.
 - `extract_era5land()` is resume-safe by design: it checks each existing NetCDF with `terra::rast()` and re-downloads only truncated files, and wraps each per-month CDS request in `tryCatch` so a single flaky response logs and continues rather than aborting a multi-year run.
+- `transform_era5land()` shares the same resume-safe discipline (per-day Parquets are skipped if readable, deleted if not; year files below `min_year_rows` are regenerated) and chunks per-day rather than per-month because per-day boundaries align with ERA5-Land's daily reset cycle for accumulated vars (`tp`, `ssrd`). The hour-0-forced-to-0 rule for those de-accumulated vars is exact only where 00 UTC is night (central Africa). For AOIs where 00 UTC is daylight, real downward flux would be silently zeroed at the day boundary — revisit before using elsewhere.
+- File-local helpers in `R/transform_era5land.R` are prefixed with `.` (`.process_day`, `.ssrd_to_wm2`, etc.) to signal they are not exported. roxygen `@export` tags are only on the public entry point.
 - `.Rbuildignore` excludes `renv/`, `.positai`, `.claude`, `AGENTS.md`, `README.Rmd`, etc. from the built tarball — add new dev-only files there if needed.
 - `renv.lock` is the source of truth for dependency versions; after `install.packages(...)` or similar, snapshot with `renv::snapshot()`.
