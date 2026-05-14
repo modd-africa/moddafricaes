@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# moddafricaes
+# moddafricaes : MoDD Africa Evidence Synthesis
 
 <!-- badges: start -->
 
