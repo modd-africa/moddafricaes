@@ -17,9 +17,30 @@ temperature).
 
 ## Installation
 
+`moddafricaes` is not on CRAN. Pick whichever GitHub-install path
+matches your tooling:
+
 ``` r
+# 1. pak (recommended; resolves system deps too)
 # install.packages("pak")
-pak::pak("kaizakunonu/moddafricaes")
+pak::pak("modd-africa/moddafricaes")
+
+# 2. remotes
+# install.packages("remotes")
+remotes::install_github("modd-africa/moddafricaes")
+
+# 3. devtools
+# install.packages("devtools")
+devtools::install_github("modd-africa/moddafricaes")
+
+# 4. A specific branch, tag, or commit
+pak::pak("modd-africa/moddafricaes@main")
+pak::pak("modd-africa/moddafricaes@v0.1.0")
+
+# 5. From a local clone (e.g. for development)
+# git clone https://github.com/modd-africa/moddafricaes.git
+# cd moddafricaes
+# R -e 'devtools::install()'        # or: pak::local_install(".")
 ```
 
 You will also need a Copernicus CDS account and an API key exported as

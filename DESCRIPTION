@@ -7,8 +7,8 @@ Description: Tools to collate, analyse and communicate evidence.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/kaizakunonu/moddafricaes
-BugReports: https://github.com/kaizakunonu/moddafricaes/issues
+URL: https://github.com/modd-africa/moddafricaes
+BugReports: https://github.com/modd-africa/moddafricaes/issues
 Config/roxygen2/version: 8.0.0
 Imports:
     sf,
