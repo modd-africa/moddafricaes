@@ -1,6 +1,6 @@
 Package: moddafricaes
 Title: Evidence Synthesis for MoDD Africa Project
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: person("Kaiza", "Ilomo", , "kilomo@ihi.or.tz",
         role = c("aut", "cre"),  comment = c(ORCID = "0009-0004-6707-6699"))
 Description: Tools to collate, analyse and communicate evidence.
