@@ -1,8 +1,11 @@
 Package: moddafricaes
 Title: Evidence Synthesis for MoDD Africa Project
 Version: 0.0.0.9001
-Authors@R: person("Kaiza", "Ilomo", , "kilomo@ihi.or.tz",
-        role = c("aut", "cre"),  comment = c(ORCID = "0009-0004-6707-6699"))
+Authors@R: c(
+    person("Kaiza", "Ilomo", , "kilomo@ihi.or.tz",
+           role = c("aut", "cre"), comment = c(ORCID = "0009-0004-6707-6699")),
+    person("Eban", "Saria", , "ebanella736@gmail.com",
+           role = "ctb"))
 Description: Tools to collate, analyse and communicate evidence.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -15,4 +18,6 @@ Imports:
     ecmwfr,
     lubridate,
     terra,
-    arrow
+    arrow,
+    geodata,
+    ggplot2
