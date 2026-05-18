@@ -20,7 +20,7 @@ extract_era5land(
 }
 \arguments{
 \item{bbox}{Numeric vector of length 4 in CDS order \code{c(N, W, S, E)}
-(e.g. the return value of \code{\link[=get_bbox]{get_bbox()}}).}
+(e.g. the return value of \code{\link[=get_bounding_box]{get_bounding_box()}}).}
 
 \item{years}{Integer vector of years to download.}
 
@@ -54,7 +54,7 @@ and the loop continues.
 }
 \examples{
 \dontrun{
-bbox <- get_bbox("/vsizip/path/to/area.zip/area.shp")
+bbox <- get_bounding_box("/vsizip/path/to/area.zip/area.shp")
 extract_era5land(
   bbox       = bbox,
   years      = 2020:2021,

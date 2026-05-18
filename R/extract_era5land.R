@@ -1,4 +1,4 @@
-# Download ERA5-Land hourly NetCDFs from the Copernicus CDS for a bbox.
+# Download ERA5-Land hourly NetCDFs from the Copernicus CDS for a bounding box.
 
 #' Extract ERA5-Land hourly data for a bounding box
 #'
@@ -12,7 +12,7 @@
 #' and the loop continues.
 #'
 #' @param bbox       Numeric vector of length 4 in CDS order `c(N, W, S, E)`
-#'   (e.g. the return value of [get_bbox()]).
+#'   (e.g. the return value of [get_bounding_box()]).
 #' @param years      Integer vector of years to download.
 #' @param output_dir Directory to stage NetCDFs under. Created if needed.
 #' @param variables  Character vector of ERA5-Land variable short names.
@@ -27,7 +27,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' bbox <- get_bbox("/vsizip/path/to/area.zip/area.shp")
+#' bbox <- get_bounding_box("/vsizip/path/to/area.zip/area.shp")
 #' extract_era5land(
 #'   bbox       = bbox,
 #'   years      = 2020:2021,
