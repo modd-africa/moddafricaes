@@ -1,11 +1,15 @@
 Package: moddafricaes
-Title: Evidence Synthesis for MoDD Africa Project
+Title: Evidence Synthesis (ES) for the Modelling for Decisions in a Dynamic Africa 
+    (MoDD Africa) Project.
 Version: 0.0.0.9001
 Authors@R: c(
     person("Kaiza", "Ilomo", , "kilomo@ihi.or.tz",
            role = c("aut", "cre"), comment = c(ORCID = "0009-0004-6707-6699")),
     person("Eban", "Saria", , "ebanella736@gmail.com",
-           role = "ctb"))
+           role = "ctb"),
+    person("The MoDD Africa Project", role = "cph"),
+    person("Wellcome Trust", role = "fnd",
+           comment = c(ROR = "029chgv08")))
 Description: Tools to collate, analyse and communicate evidence.
 License: MIT + file LICENSE
 Encoding: UTF-8
