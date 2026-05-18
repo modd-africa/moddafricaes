@@ -1,4 +1,4 @@
-#' Generate and Export an Elevation Map for a Given Country
+#' Extract and Export an Elevation Map for a Given Country
 #'
 #' Downloads GADM boundary and 30-second elevation data for a specified country,
 #' crops and masks the DEM to the country boundary, plots an elevation map using
@@ -28,8 +28,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' result <- elevation_map("TZA")
-#' result <- elevation_map("KEN", output_file = "kenya_dem.tif", map_title = "Kenya Elevation")
+#' result <- get_elevation("TZA")
+#' result <- get_elevation("KEN", output_file = "kenya_dem.tif", map_title = "Kenya Elevation")
 #' }
 #'
 #' @export
@@ -37,7 +37,7 @@ get_elevation <- function(
     country_code,
     output_file  = NULL,
     plot         = TRUE,
-    data_path    = tempdir(),
+    data_path    = tempdir(check = TRUE),
     map_title    = NULL
 ) {
 
@@ -94,7 +94,7 @@ get_elevation <- function(
     raster      = dem_masked,
     crs         = terra::crs(dem_masked),
     extent      = terra::ext(dem_masked),
-    output_file = normalizePath(output_file, mustWork = FALSE),
+    output_file = normalizePath(output_file, mustWork = TRUE),
     plot        = if (plot) p else NULL
   )
 }
